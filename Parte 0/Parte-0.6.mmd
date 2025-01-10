@@ -1,0 +1,12 @@
+%% Diagrama de secuencia de creacion de nota en single page app
+
+sequenceDiagram
+    Usuario->>+Navegador: Abre la website
+    Navegador->>+Servidor: GET /exampleapp/spa
+    Servidor->>-Navegador: HTTP 200 OK (Content-Type: text/html, text/css, application/javascript)
+    Servidor->>-Navegador: HTML, CSS, JS
+    Usuario->>+Navegador: Escribe una nota
+    Usuario->>+Navegador: Hace click en save
+    Navegador->>+Servidor: POST /exampleapp/new_note_spa
+    Servidor->>-Navegador: HTTP 201 Created
+    Navegador->>+Navegador: Actualiza la UI con la nueva nota

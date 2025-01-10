@@ -1,0 +1,7 @@
+%% Diagrama de secuencia de single page app
+sequenceDiagram
+    Usuario->>+Navegador: Abre la website
+    Navegador->>+Servidor: GET /exampleapp/spa
+    Servidor->>-Navegador: HTTP 200 OK (Content-Type: text/html, text/css, application/javascript)
+    Servidor->>-Navegador: HTML, CSS, JS
+

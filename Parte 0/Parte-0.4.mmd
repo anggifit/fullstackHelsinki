@@ -1,11 +1,15 @@
+%% Diagrama de secuencia de la creación de una nota
 sequenceDiagram
     Usuario->>+Navegador: Abre la website
     Navegador->>+Servidor: GET /exampleapp/notes
-    Servidor->>-Navegador: HTML, CSS, JS
+    Servidor->>-Navegador: HTML
+    Navegador->>+Servidor: GET /static/main.css
+    Servidor->>-Navegador: main.css
+    Navegador->>+Servidor: GET /static/main.js
+    Servidor->>-Navegador: main.js
     Usuario->>+Navegador: Escribe una nota
     Usuario->>+Navegador: Hace click en save
     Navegador->>+Servidor: POST /exampleapp/notes/new_note
     Servidor->>-Navegador: HTTP 302 Found (redireccion)
     Navegador->>-Servidor: GET /exampleapp/notes
-    Servidor->>+Navegador: HTTP actualizaco con la nueva nota
-
+    Servidor->>+Navegador: HTTP actualizado con la nueva nota
