@@ -1,9 +1,11 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 
-const Total = ({ exercises1, exercises2, exercises3 }) => {
-  return <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>;
+const Total = ({ totalExercises }) => {
+  return <p>Number of exercises {totalExercises}</p>;
 };
 
-Total.propTypes = {};
+Total.propTypes = {
+  totalExercises: PropTypes.number.isRequired,
+};
 
 export default Total;

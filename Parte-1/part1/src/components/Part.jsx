@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 
 const Part = ({ part, number }) => {
   return (
-    <p>
+    <li>
       {part} {number}
-    </p>
+    </li>
   );
 };
 
