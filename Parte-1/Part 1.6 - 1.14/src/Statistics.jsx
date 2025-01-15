@@ -11,14 +11,20 @@ const Statistics = ({
   return (
     <div>
       <h2 className="text-xl text-blue-400">Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p className="text-blue-700 pt-1">All: {totalClicks}</p>
-      <p className="text-blue-700">Average: {average > 0 ? average : 0}</p>
-      <p className="text-blue-700">
-        Positive: {positiveClicks > 0 ? positiveClicks : 0}%
-      </p>
+      {totalClicks === 0 ? (
+        <p className="text-blue-700 pt-1">No feedback given</p>
+      ) : (
+        <>
+          <p>Good: {good}</p>
+          <p>Neutral: {neutral}</p>
+          <p>Bad: {bad}</p>
+          <p className="text-blue-700 pt-1">All: {totalClicks}</p>
+          <p className="text-blue-700">Average: {average > 0 ? average : 0}</p>
+          <p className="text-blue-700">
+            Positive: {positiveClicks > 0 ? positiveClicks : 0}%
+          </p>
+        </>
+      )}
     </div>
   );
 };
