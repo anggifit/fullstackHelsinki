@@ -15,16 +15,20 @@ const Statistics = ({
       {totalClicks === 0 ? (
         <p className="text-blue-700 pt-1">No feedback given</p>
       ) : (
-        <>
-          <StatisticLine text="Good" value={good} />
-          <StatisticLine text="Neutral" value={neutral} />
-          <StatisticLine text="Bad" value={bad} />
-          <p className="text-blue-700 pt-1">All: {totalClicks}</p>
-          <p className="text-blue-700">Average: {average > 0 ? average : 0}</p>
-          <p className="text-blue-700">
-            Positive: {positiveClicks > 0 ? positiveClicks : 0}%
-          </p>
-        </>
+        <table cellPadding="8">
+          <tbody>
+            <StatisticLine text="Good" value={good} />
+            <StatisticLine text="Neutral" value={neutral} />
+            <StatisticLine text="Bad" value={bad} />
+            <StatisticLine text="All" value={totalClicks} />
+            <StatisticLine text="Average" value={average > 0 ? average : 0} />
+            <StatisticLine
+              text="Positive"
+              value={positiveClicks > 0 ? positiveClicks : 0}
+              symbol="%"
+            />
+          </tbody>
+        </table>
       )}
     </div>
   );
