@@ -14,18 +14,29 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0)); // Array de longitud igual a la cantidad de anécdotas
 
-  const handleClick = () => {
+  const handleNextClick = () => {
     const randomAnecdote = Math.floor(Math.random() * anecdotes.length);
     setSelected(randomAnecdote);
   };
+
+  const handleVoteClick = () => {
+    const copyVotes = [...votes]; // Porque no se pueden modificar los estados directamente
+    copyVotes[selected] = (copyVotes[selected] || 0) + 1; // Si no hay votos, se inicializa en 0
+    setVotes(copyVotes);
+  };
+
   return (
     <div className="px-4 pb-6 m-4 flex flex-col items-center">
       <h1 className="text-pink-400 text-xl italic">
         &quot;{anecdotes[selected]}&quot;
       </h1>
-
-      <Button text="Next anecdote" onClick={handleClick} />
+      <p>This phrase has {votes[selected]} votes</p>
+      <div className="flex mt-4">
+        <Button text="Next anecdote" onClick={handleNextClick} />
+        <Button text="Vote" onClick={handleVoteClick} />
+      </div>
     </div>
   );
 };
