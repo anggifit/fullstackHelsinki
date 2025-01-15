@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import StatisticLine from "./StatisticLine";
 
 const Statistics = ({
   good,
@@ -15,9 +16,9 @@ const Statistics = ({
         <p className="text-blue-700 pt-1">No feedback given</p>
       ) : (
         <>
-          <p>Good: {good}</p>
-          <p>Neutral: {neutral}</p>
-          <p>Bad: {bad}</p>
+          <StatisticLine text="Good" value={good} />
+          <StatisticLine text="Neutral" value={neutral} />
+          <StatisticLine text="Bad" value={bad} />
           <p className="text-blue-700 pt-1">All: {totalClicks}</p>
           <p className="text-blue-700">Average: {average > 0 ? average : 0}</p>
           <p className="text-blue-700">
