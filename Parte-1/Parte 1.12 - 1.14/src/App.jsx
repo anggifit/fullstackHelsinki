@@ -27,6 +27,12 @@ const App = () => {
     setVotes(copyVotes);
   };
 
+  const mostVoted = votes.reduce((previous, current, index) => {
+    return current > votes[previous] ? index : previous;
+  });
+
+  console.log(anecdotes[mostVoted]);
+
   return (
     <div className="px-4 pb-6 m-4 flex flex-col items-center">
       <h1 className="text-pink-400 text-xl italic">
@@ -37,6 +43,10 @@ const App = () => {
         <Button text="Next anecdote" onClick={handleNextClick} />
         <Button text="Vote" onClick={handleVoteClick} />
       </div>
+      <h2 className="mt-4 text-2xl font-bold">Most voted anecdote</h2>
+      <p className="text-pink-600 text-lg italic">
+        &quot;{anecdotes[mostVoted]}&quot;
+      </p>
     </div>
   );
 };
