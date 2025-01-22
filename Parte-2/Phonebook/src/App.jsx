@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Input from "./components/Input";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -40,10 +42,6 @@ const App = () => {
     setNewNumber("");
   };
 
-  const personsToShow = persons.filter((person) =>
-    person.name.toLowerCase().includes(findName.toLowerCase())
-  );
-
   const handleFindName = (event) => {
     event.preventDefault();
     setFindName(event.target.value);
@@ -52,41 +50,17 @@ const App = () => {
   return (
     <div className="container mx-auto pt-4">
       <h2 className="text-2xl text-blue-700 font-bold">Phonebook</h2>
-      <Input
-        title="Filter shown with"
-        value={findName}
-        onChange={handleFindName}
+      <Filter findName={findName} onChange={handleFindName} persons={persons} />
+      <h2 className="text-xl font-semibold py-3">Add a new</h2>
+      <PersonForm
+        nameValue={newName}
+        onChangeName={handleAddNewName}
+        numberValue={newNumber}
+        onChangeNumber={handleAddNewNumber}
+        onClick={addPerson}
       />
-
-      <ul>
-        {personsToShow.map((person) => (
-          <li key={person.id}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
-      <form>
-        <h2 className="text-xl font-semibold py-3">Add a new</h2>
-        <Input value={newName} onChange={handleAddNewName} title="Name" />
-        <Input value={newNumber} onChange={handleAddNewNumber} title="Number" />
-        <div className="mb-2 p-2">
-          <button
-            type="submit"
-            onClick={addPerson}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
-          >
-            add
-          </button>
-        </div>
-      </form>
       <h2 className="text-xl font-semibold">Numbers</h2>
-      <ul className="list-disc pl-8 pt-4">
-        {persons.map((person) => (
-          <li key={person.id}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <Persons persons={persons} />
     </div>
   );
 };
