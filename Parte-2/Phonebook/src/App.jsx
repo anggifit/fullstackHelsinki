@@ -3,6 +3,7 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import numbers from "./sevices/numbers";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -31,17 +32,17 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
     if (persons.some((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
       return;
     }
 
-    setPersons(persons.concat(newPerson));
-
-    setNewName("");
-    setNewNumber("");
+    numbers.create(newPerson).then((response) => {
+      setPersons(persons.concat(response));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const handleFindName = (event) => {
