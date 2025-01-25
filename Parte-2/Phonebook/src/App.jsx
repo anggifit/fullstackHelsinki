@@ -3,12 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import numbers from "./sevices/numbers";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [findName, setFindName] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     numbers.getAll().then((data) => {
@@ -46,6 +48,7 @@ const App = () => {
       setNewNumber("");
     });
   };
+
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
@@ -75,6 +78,10 @@ const App = () => {
       setPersons(persons.concat(response));
       setNewName("");
       setNewNumber("");
+      setMessage(`Added ${newPerson.name}`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     });
   };
 
@@ -95,6 +102,7 @@ const App = () => {
         onChangeNumber={handleAddNewNumber}
         onClick={addPerson}
       />
+      <Notification message={message} />
       <h2 className="text-xl font-semibold">Numbers</h2>
       <Persons persons={persons} onClick={handleClickDelete} />
     </div>
