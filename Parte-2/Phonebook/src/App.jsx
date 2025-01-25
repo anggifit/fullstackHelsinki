@@ -25,6 +25,7 @@ const App = () => {
     event.preventDefault();
     setNewNumber(event.target.value);
   };
+
   const handleClickDelete = (id) => {
     window.confirm(`Do you want to delete this person?`) &&
       handleConfirmDelete(id);
@@ -35,14 +36,38 @@ const App = () => {
       setPersons(persons.filter((person) => person.id !== id));
     });
   };
+
+  const updatePerson = (id, newPerson) => {
+    numbers.update(id, newPerson).then((response) => {
+      setPersons(
+        persons.map((person) => (person.id !== id ? person : response))
+      );
+      setNewName("");
+      setNewNumber("");
+    });
+  };
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
       name: newName,
       number: newNumber,
     };
-    if (persons.some((person) => person.name === newName)) {
+    if (
+      persons.some(
+        (person) => person.name === newName && person.number === newNumber
+      )
+    ) {
       alert(`${newName} is already added to phonebook`);
+      return;
+    } else if (
+      persons.some(
+        (person) => person.name === newName && person.number !== newNumber
+      )
+    ) {
+      const person = persons.find((person) => person.name === newName);
+      window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      ) && updatePerson(person.id, newPerson);
       return;
     }
 
