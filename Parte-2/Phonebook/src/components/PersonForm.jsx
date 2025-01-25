@@ -1,3 +1,4 @@
+import ActionButton from "./ActionButton";
 import Input from "./Input";
 import PropTypes from "prop-types";
 
@@ -13,13 +14,7 @@ const PersonForm = ({
       <Input value={nameValue} onChange={onChangeName} title="Name" />
       <Input value={numberValue} onChange={onChangeNumber} title="Number" />
       <div className="mb-2 p-2">
-        <button
-          type="submit"
-          onClick={onClick}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
-        >
-          add
-        </button>
+        <ActionButton onClick={onClick} title="Add" />
       </div>
     </form>
   );

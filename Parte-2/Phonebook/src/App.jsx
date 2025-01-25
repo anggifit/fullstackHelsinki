@@ -25,7 +25,16 @@ const App = () => {
     event.preventDefault();
     setNewNumber(event.target.value);
   };
+  const handleClickDelete = (id) => {
+    window.confirm(`Do you want to delete this person?`) &&
+      handleConfirmDelete(id);
+  };
 
+  const handleConfirmDelete = (id) => {
+    numbers.eliminate(id).then(() => {
+      setPersons(persons.filter((person) => person.id !== id));
+    });
+  };
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
@@ -62,7 +71,7 @@ const App = () => {
         onClick={addPerson}
       />
       <h2 className="text-xl font-semibold">Numbers</h2>
-      <Persons persons={persons} />
+      <Persons persons={persons} onClick={handleClickDelete} />
     </div>
   );
 };
