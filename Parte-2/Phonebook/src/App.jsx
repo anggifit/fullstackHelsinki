@@ -11,11 +11,17 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [findName, setFindName] = useState("");
   const [message, setMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    numbers.getAll().then((data) => {
-      setPersons(data); // data is an array of objects
-    });
+    numbers
+      .getAll()
+      .then((data) => {
+        setPersons(data); // data is an array of objects
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleAddNewName = (event) => {
@@ -34,19 +40,44 @@ const App = () => {
   };
 
   const handleConfirmDelete = (id) => {
-    numbers.eliminate(id).then(() => {
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+    numbers
+      .eliminate(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsError(true);
+        setMessage(
+          `${
+            persons.find((person) => person.id === id).name
+          } has already been removed from server`
+        );
+        setTimeout(() => {
+          setMessage(null);
+          setIsError(false);
+        }, 3000);
+      });
   };
 
   const updatePerson = (id, newPerson) => {
-    numbers.update(id, newPerson).then((response) => {
-      setPersons(
-        persons.map((person) => (person.id !== id ? person : response))
-      );
-      setNewName("");
-      setNewNumber("");
-    });
+    numbers
+      .update(id, newPerson)
+      .then((response) => {
+        setPersons(
+          persons.map((person) => (person.id !== id ? person : response))
+        );
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => {
+        setIsError(true);
+        setMessage(error.response.data.error);
+        setTimeout(() => {
+          setMessage(null);
+          setIsError(false);
+        }, 3000);
+      });
   };
 
   const addPerson = (event) => {
@@ -81,6 +112,7 @@ const App = () => {
       setMessage(`Added ${newPerson.name}`);
       setTimeout(() => {
         setMessage(null);
+        setIsError(false);
       }, 3000);
     });
   };
@@ -102,9 +134,10 @@ const App = () => {
         onChangeNumber={handleAddNewNumber}
         onClick={addPerson}
       />
-      <Notification message={message} />
+      {!isError ? <Notification message={message} isError={isError} /> : null}
       <h2 className="text-xl font-semibold">Numbers</h2>
       <Persons persons={persons} onClick={handleClickDelete} />
+      {isError ? <Notification message={message} isError={isError} /> : null}
     </div>
   );
 };
