@@ -5,7 +5,8 @@ Este repositorio contiene **todas las soluciones** a los ejercicios del curso **
 ## Estructura del Proyecto
 
 - **Part 0**: Incluye los ejercicios referentes a "Fundamentos de las aplicaciones web".
-- **Part 1**: Incluye los ejercicios referentes a "Introducción a React".
+- **Part-1**: Incluye los ejercicios referentes a "Introducción a React".
+- **Part-2**: Incluye los ejercicios referentes a "Comunicándose con el servidor".
 
 ## Instrucciones
 
@@ -21,8 +22,8 @@ Este repositorio contiene **todas las soluciones** a los ejercicios del curso **
    Navega hasta la carpeta del conjunto de ejercicios que quieras ejecutar. Por ejemplo:
 
    ```bash
-   cd Parte-1
-   cd Parte\ 1.1\ -\ 1.5/
+   cd Parte-2
+   cd Phonebook
 
    ```
 
@@ -42,6 +43,19 @@ Este repositorio contiene **todas las soluciones** a los ejercicios del curso **
    ```
 
    La aplicación estará disponible en tu navegador en la dirección que indique la terminal, normalmente http://localhost:5173.
+
+5. **En el caso de la /Part-2/Phonebook Inicia el servidor JSON (backend)**
+
+   Abre una terminal y ejecuta el siguiente comando para iniciar el servidor JSON en el puerto 3001:
+
+   ```bash
+       npm run server
+   ```
+
+   El servidor JSON utiliza el archivo db.json como base de datos. Puedes modificar este archivo para agregar o cambiar datos iniciales.
+
+6. **Usa la aplicación**
+   Ahora puedes interactuar con la aplicación Phonebook en tu navegador. El frontend se comunicará con el backend (servidor JSON) para gestionar los datos.
 
 ## Contributing
 
