@@ -1,4 +1,4 @@
-# APhonebook - Fullstack Helsinki.
+# Phonebook - Fullstack Helsinki.
 
 Este proyecto es parte del curso **Fullstack Helsinki** y corresponde a la sección **Parte-2: Comunicándose con el servidor**. La aplicación **Phonebook** es una agenda telefónica que permite agregar, buscar y eliminar contactos. Utiliza React para el frontend y un servidor JSON como backend para gestionar los datos.
 
