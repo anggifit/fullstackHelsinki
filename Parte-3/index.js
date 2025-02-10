@@ -4,6 +4,7 @@ const app = express();
 
 app.use(express.json()); // Middleware to parse the body of the request as JSON
 app.use(cors()); // Middleware to allow requests from other origins
+app.use(express.static("dist")); // Middleware to serve static files
 
 let notes = [
   {
