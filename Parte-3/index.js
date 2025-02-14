@@ -1,70 +1,98 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
 
-app.use(express.json()); // Middleware to parse the body of the request as JSON
-app.use(cors()); // Middleware to allow requests from other origins
-app.use(express.static("dist")); // Middleware to serve static files
+const Note = require("./models/note");
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
+//Middlewares
+app.use(cors());
+app.use(express.static("dist"));
+app.use(express.json());
 
-const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0; // Get the maximum id of the notes
-
+// Routes
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>"); // Send a response to the client, stablishing the content type as text/HTML
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes); // Send a response to the client, stablishing the content type as application/json
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
-app.get("/api/notes/:id", (req, res) => {
-  const id = Number(req.params.id); // Convert the id parameter to a number
-  const note = notes.find((note) => note.id === id);
-
-  note ? res.json(note) : res.status(404).end();
+app.get("/api/notes/:id", (request, response, next) => {
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error)); // middelware para manejar errores, en vez de usar try-catch, se le pasa el error a express
 });
 
-app.delete("/api/notes/:id", (req, res) => {
-  const id = Number(req.params.id);
-  notes = notes.filter((note) => note.id !== id);
-  res.status(204).end();
+app.delete("/api/notes/:id", (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
-app.post("/api/notes", (req, res) => {
-  const body = req.body;
-  if (!body.content) {
-    return res.status(400).json({
-      error: "content missing",
-    });
-  }
+app.put("/api/notes/:id", (request, response, next) => {
+  const body = request.body;
 
   const note = {
-    id: maxId + 1,
     content: body.content,
-    important: body.important || false,
+    important: body.important,
   };
-  notes = notes.concat(note);
-  res.json(note);
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch((error) => next(error));
 });
 
-const PORT = process.env.PORT || 3001;
+app.post("/api/notes", (request, response) => {
+  const body = request.body;
+
+  if (body.content === undefined) {
+    return response.status(400).json({ error: "content missing" });
+  }
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+  });
+
+  note.save().then((savedNote) => {
+    response.status(201).json(savedNote);
+  });
+});
+
+// Middleware para manejar rutas no encontradas
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+// Middleware para manejar errores
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
+
+// Iniciar  el servidor
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
