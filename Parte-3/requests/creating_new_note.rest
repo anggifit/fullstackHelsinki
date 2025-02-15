@@ -2,6 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Schedule a doctor's appointment for next week.",
+    "content": "xxx",
     "important": true
 }
