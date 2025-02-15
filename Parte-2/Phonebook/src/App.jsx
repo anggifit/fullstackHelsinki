@@ -105,16 +105,26 @@ const App = () => {
       return;
     }
 
-    numbers.create(newPerson).then((response) => {
-      setPersons(persons.concat(response));
-      setNewName("");
-      setNewNumber("");
-      setMessage(`Added ${newPerson.name}`);
-      setTimeout(() => {
-        setMessage(null);
-        setIsError(false);
-      }, 3000);
-    });
+    numbers
+      .create(newPerson)
+      .then((response) => {
+        setPersons(persons.concat(response));
+        setNewName("");
+        setNewNumber("");
+        setMessage(`Added ${newPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+          setIsError(false);
+        }, 3000);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setMessage(error.response.data.error);
+        setTimeout(() => {
+          setMessage(null);
+          setIsError(false);
+        }, 5000);
+      });
   };
 
   const handleFindName = (event) => {
